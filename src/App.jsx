@@ -48,14 +48,16 @@ function InputField() {
           :
           searching ?
             <>
-              <img src={Loading} />
-              <h4>Loading...</h4>
-              <div className="download-bar-container">
+              <img style={{ marginTop: '2em', width: '10%', height: '' }} src={Loading} />
+              <h4 style={{ marginTop: '-.2em' }}>Loading...</h4>
+              {/* <img style={{ width: '100%', height: '1em' }} src={Loading} /> */}
+              {/* <div className="download-bar-container">
                 <div className="download-bar" style={{ width: `${progress}%` }}></div>
-              </div>
+              </div> */}
             </>
             : null
       }
+
     </div>
   );
 }
