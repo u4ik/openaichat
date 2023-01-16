@@ -39,8 +39,8 @@ button:focus-visible {
 .input-field {
     min-width: 500px;
     height: 2em;
-    font-size: 1.2em;
-    padding: 1em;
+    font-size: 1.4em;
+    padding: 0.6em;
     margin: 0.5em;
     margin-bottom: 1.5em;
     color: palevioletred;
