@@ -9,7 +9,7 @@ const Form = (props) => {
         <form onSubmit={props.getResult}>
             <input
                 required={true}
-                placeholder='How to plant a tree?'
+                placeholder='How do I plant a tree?'
                 className="input-field"
                 value={props.inputValue}
                 onChange={e => props.setInputValue(e.target.value)}
