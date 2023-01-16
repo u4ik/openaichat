@@ -8,6 +8,7 @@ const Form = (props) => {
     return (
         <form onSubmit={props.getResult}>
             <input
+                required={true}
                 placeholder='How to plant a tree?'
                 className="input-field"
                 value={props.inputValue}
@@ -15,7 +16,7 @@ const Form = (props) => {
             />
             <div style={{ display: 'flex', gap: '.5em', justifyContent: 'center' }}>
 
-                <button className="submit_button" >Submit</button>
+                <button className="submit_button" disabled={!props.inputValue} >Submit</button>
 
                 {
                     props.result ?
