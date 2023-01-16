@@ -37,7 +37,7 @@ button:focus-visible {
 }
 
 .input-field {
-    min-width: 500px;
+    min-width: 6em;
     height: 2em;
     border-radius: 0.7em;
     font-size: 1.4em;
