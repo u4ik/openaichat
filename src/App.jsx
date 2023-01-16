@@ -43,7 +43,7 @@ function InputField() {
       <Form inputValue={inputValue} setInputValue={setInputValue} result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} />
       {
         result ?
-          <p className="" style={{}}>{result}</p>
+          <p className="" style={{ fontSize: '1.4em', lineHeight: '1.4em' }}>{result}</p>
           :
           searching ?
             <>
