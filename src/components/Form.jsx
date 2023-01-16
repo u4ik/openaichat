@@ -8,6 +8,7 @@ const Form = (props) => {
     return (
         <form onSubmit={props.getResult}>
             <input
+                autoComplete='on'
                 required={true}
                 placeholder='How do I plant a tree?'
                 className="input-field"
