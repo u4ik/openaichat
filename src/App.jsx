@@ -3,6 +3,7 @@ import "./App.css";
 import Form from "./components/Form";
 import axios from 'axios'
 import { APIURL } from './helpers'
+import Loading from './assets/loading.gif'
 
 
 
@@ -47,6 +48,7 @@ function InputField() {
           :
           searching ?
             <>
+              <img src={Loading} />
               <h4>Loading...</h4>
               <div className="download-bar-container">
                 <div className="download-bar" style={{ width: `${progress}%` }}></div>
