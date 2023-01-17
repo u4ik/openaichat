@@ -1,0 +1,48 @@
+/* The container for the switch */
+
+.react-switch-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0.6em;
+    margin-bottom: 0.6em;
+    border-bottom: 0.2em solid white;
+}
+
+
+/* The radio inputs */
+
+.react-switch-radio {
+    display: none;
+}
+
+
+/* The labels for the options */
+
+.react-switch-label {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #ccc;
+    color: #fff;
+    font-weight: bold;
+    margin-right: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+
+/* Style the selected option */
+
+.react-switch-radio:checked+.react-switch-label {
+    background: #0683d6bd;
+}
+
+
+/* Add hover effect for the options */
+
+.react-switch-label:hover {
+    background: #0683d6;
+    color: #fff;
+}

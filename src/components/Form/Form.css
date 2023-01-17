@@ -29,6 +29,7 @@ button {
     background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
+    margin-bottom: 1em;
 }
 
 button:focus,
@@ -43,7 +44,7 @@ button:focus-visible {
     font-size: 1.4em;
     padding: 0.6em;
     margin: 0.5em;
-    margin-bottom: 1.5em;
+    margin-bottom: 0.8em;
     color: palevioletred;
     background: papayawhip;
     border: none;
@@ -64,7 +65,7 @@ button:focus-visible {
 }
 
 .download-bar {
-    transition: all 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
     height: 100%;
     background-color: #4caf50;
     /* Adjust as needed */

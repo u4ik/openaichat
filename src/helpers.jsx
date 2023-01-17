@@ -1,2 +1,2 @@
-// export const APIURL = "http://localhost:3000/message"
-export const APIURL = "https://openaichatserver.herokuapp.com/message"
+export let APIURL = "http://localhost:3000"
+// export const APIURL = "https://openaichatserver.herokuapp.com"

@@ -1,63 +1,101 @@
 import React, { useState } from "react";
-import "./App.css";
-import Form from "./components/Form";
 import axios from 'axios'
+import { Image, Prompt } from './pages';
 import { APIURL } from './helpers'
 import Loading from './assets/loading.gif'
-
-
+import { ToggleSwitch } from "./components";
+import "./App.css";
 
 function InputField() {
 
   const [result, setResult] = useState("");
-  const [searching, setSearching] = useState(false)
+  const [searching, setSearching] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [options, setOptions] = useState(["Prompt", "Image"]);
+  const [selectedOption, setSelectedOption] = useState(options[0]);
   const [inputValue, setInputValue] = useState("");
 
-
-  const getResult = async (e) => {
+  const getResult = async (e, flag) => {
     e.preventDefault();
+    let url = APIURL;
     setResult("")
-    setSearching(true);
-    const response = await axios.post(APIURL, JSON.stringify({
-      prompt: inputValue
-    }),
-      {
 
-        headers: {
-          "Content-Type": "application/json"
-        },
-        onDownloadProgress: (progressEvent) => {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setProgress(percentCompleted);
-          console.log(`Upload progress: ${percentCompleted}%`);
+    setProgress(0);
+
+    switch (flag) {
+      case "Prompt":
+        {
+          url = APIURL + "/message"
         }
-      },
-    )
-    console.log(response.data.message)
-    setSearching(false);
-    setResult(response.data.message);
+        break;
+      case "Image":
+        {
+          url = APIURL + "/image"
+        }
+        break;
+      default:
+        { console.log("error") }
+    }
+    try {
+      setSearching(true);
+      const response = await axios.post(url, JSON.stringify({
+        prompt: inputValue
+      }),
+        {
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          // onDownloadProgress: (progressEvent) => {
+          //   const percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+          //   setProgress(percentCompleted);
+          //   console.log(`Upload progress: ${percentCompleted}%`);
+          //   if (percentage === 100) {
+          //     setTimeout(() => {
+          //       setSearching(false);
+          //     }, 400);
+          //   }
+          //   clearTimeout()
+          // }
+        },
+      )
+      console.log(response.data.message)
+
+
+      setResult(response.data.message)
+
+      setSearching(false);
+    } catch (err) {
+      console.log(err);
+      setSearching(false);
+    }
   }
 
   return (
     <div>
-      <Form inputValue={inputValue} setInputValue={setInputValue} result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} />
-      {
-        result ?
-          <p className="" style={{ fontSize: '1.4em', lineHeight: '1.4em' }}>{result}</p>
-          :
+      <ToggleSwitch setResult={setResult} setInputValue={setInputValue} options={options} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+      <div className="page-container">
+        {
+          selectedOption === "Prompt" ?
+            <Prompt inputValue={inputValue} setInputValue={setInputValue} result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} selectedOption={selectedOption} />
+            :
+            selectedOption === "Image" ?
+              <Image inputValue={inputValue} setInputValue={setInputValue} result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} selectedOption={selectedOption} />
+              : null
+        }
+
+        {
           searching ?
             <>
               <img style={{ marginTop: '2em', width: '10%', height: '' }} src={Loading} />
-              <h4 style={{ marginTop: '-.2em' }}>Loading...</h4>
-              {/* <img style={{ width: '100%', height: '1em' }} src={Loading} /> */}
               {/* <div className="download-bar-container">
                 <div className="download-bar" style={{ width: `${progress}%` }}></div>
               </div> */}
+              <h4 style={{ marginTop: '-.2em' }}>Loading...</h4>
             </>
             : null
-      }
-
+        }
+      </div>
     </div>
   );
 }
