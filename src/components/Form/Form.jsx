@@ -8,7 +8,7 @@ const Form = (props) => {
             <input
                 autoComplete='on'
                 required={true}
-                placeholder={props.selectedOption === "Prompt" ? "How do I plant a tree?" : "Picture of a cat"}
+                placeholder={props.selectedOption === "Prompt" ? "How do I plant a tree?" : "Cat"}
                 className="input-field"
                 value={props.inputValue}
                 onChange={e => props.setInputValue(e.target.value)}
