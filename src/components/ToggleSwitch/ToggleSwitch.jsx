@@ -1,11 +1,11 @@
 import './ToggleSwitch.css';
 
-const ToggleSwitch = ({ options, selectedOption, setSelectedOption, setInputValue, setResult }) => {
+const ToggleSwitch = ({ options, selectedOption = '', setSelectedOption = '', setInputValue = '', setResult = '', imgOption = '', setImgOption = '' }) => {
 
     const handleOptionChange = (option) => {
-        setSelectedOption(option);
-        setInputValue("");
-        setResult("");
+        setSelectedOption ? setSelectedOption(option) : setImgOption(option);
+        setInputValue ? setInputValue("") : null;
+        setResult ? setResult("") : null;
     }
     return (
         <div className="react-switch-container">
@@ -16,7 +16,11 @@ const ToggleSwitch = ({ options, selectedOption, setSelectedOption, setInputValu
                         id={option}
                         name="react-switch"
                         value={option}
-                        checked={selectedOption === option}
+                        checked={
+                            selectedOption ? selectedOption === option
+                                : imgOption ? imgOption === option : null
+
+                        }
                         onChange={() => handleOptionChange(option)}
                         className="react-switch-radio"
                     />
