@@ -1,71 +1,81 @@
 import './Image.css';
 import { Form, ToggleSwitch } from "../../components";
-import { useState } from 'react';
-import axios from 'axios'
-import { APIURL } from '../../helpers'
-const Image = ({ result, setSearching, getResult, setResult, setProgress, selectedOption, inputValue, setInputValue }) => {
+import { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+
+import { APIURL } from '../../helpers';
+const Image = ({ error, setError, result, searching, setSearching, getResult, setResult, setProgress, selectedOption, inputValue, setInputValue }) => {
     const [options, setOptions] = useState(["Search", "Alter"]);
     const [imgOption, setImgOption] = useState(options[0]);
-    const [imageSelected, setImageSelected] = useState();
+    const [imgData, setImgData] = useState('');
+    const [disableUpload, setDisableUpload] = useState(true);
+    const [selectedImage, setSelectedImage] = useState('');
 
-    /* TODO : Handle different selections for toggle switch. May just create a new one??
-    */
-    /* TODO : Allow images to be chosen to be altered from initial img results page
-    */
+    const imgRef = useRef();
 
     const onSubmit = async (e) => {
         e.preventDefault();
-
-        const file = document.getElementById("upload");
-        const formData = new FormData();
-        formData.append("upload", file.files[0])
-
+        setSearching(true);
+        setError(false);
         let url = APIURL + '/alter_image';
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                body: formData
+                body: imgData
             })
             const result = await response.json();
+            setSearching(false);
             setResult(result.res);
+            setImgData('');
         } catch (err) {
-            console.log(err);
-        }
-    }
+            setError(true);
+            setImgData('');
+        };
+    };
 
-    const onChange = () => {
-        let img = document.getElementById("upload").files[0];
-        // Check if img has been selected
-        if (img) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                // Storing base64 string in state
-                setImageSelected(e.target.result)
-            }
-            reader.readAsDataURL(img)
+    const onChange = (e) => {
+        const formData = new FormData();
+        const file = imgRef.current;
+        formData.append("upload", file.files[0]);
+
+        if (e.target.files && e.target.files[0]) {
+            setSelectedImage(URL.createObjectURL(e.target.files[0]))
+            setDisableUpload(false)
         }
-    }
+        setImgData(formData);
+    };
 
     return (
         <>
-            <ToggleSwitch options={options} imgOption={imgOption} setImgOption={setImgOption} />
+            <ToggleSwitch setSelectedImage={setSelectedImage} options={options} imgOption={imgOption} setImgOption={setImgOption} />
             {
                 imgOption === 'Search' ?
                     <Form result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} selectedOption={selectedOption} inputValue={inputValue} setInputValue={setInputValue} />
                     :
-                    <form onSubmit={onSubmit}>
-                        <input onChange={onChange} style={{ color: 'white' }} type='file' id='upload' accept=".png, .jpg, .jpeg" />
-                        <button type='submit'>Upload</button>
-                    </form>
+                    <form onSubmit={onSubmit} style={{ marginTop: '1em' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '1em' }}>
+                            {
+                                selectedImage ?
+                                    <img src={selectedImage} style={{ width: 'auto', height: '10em', borderRadius: '1em' }} />
+                                    : null
+                            }
 
+                            <input ref={imgRef} onChange={onChange} style={{ color: 'white' }} type='file' id='upload' accept=".png, .jpg, .jpeg" />
+                            <button type='submit' disabled={disableUpload} style={{ cursor: disableUpload ? 'default' : 'pointer', marginBottom: '1em' }}>Upload</button>
+                        </div>
+                    </form>
             }
+
             <div className="image-container">
-                {result ? result.map((i, idx) => {
+                {result && !searching ? result.map((i, idx) => {
                     return (
                         <div key={idx}>
-                            <a href={i.url} target="_blank">
-                                <img className="image" src={i.url} />
-                            </a>
+                            {
+                                !error ?
+                                    <a href={i.url} target="_blank">
+                                        <img className="image" src={i.url} />
+                                    </a> : null
+                            }
                         </div>
                     )
                 }) : null}

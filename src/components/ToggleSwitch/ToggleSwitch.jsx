@@ -1,11 +1,21 @@
 import './ToggleSwitch.css';
 
-const ToggleSwitch = ({ options, selectedOption = '', setSelectedOption = '', setInputValue = '', setResult = '', imgOption = '', setImgOption = '' }) => {
+const ToggleSwitch = ({
+    options,
+    setSelectedImage = '',
+    selectedOption = '',
+    setSelectedOption = '',
+    setInputValue = '',
+    setResult = '',
+    imgOption = '',
+    setImgOption = ''
+}) => {
 
     const handleOptionChange = (option) => {
         setSelectedOption ? setSelectedOption(option) : setImgOption(option);
         setInputValue ? setInputValue("") : null;
         setResult ? setResult("") : null;
+        setSelectedImage ? setSelectedImage('') : null;
     }
     return (
         <div className="react-switch-container">

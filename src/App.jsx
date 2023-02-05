@@ -6,6 +6,9 @@ import Loading from './assets/loading.gif'
 import { ToggleSwitch } from "./components";
 import "./App.css";
 
+
+import { Dimmer, Loader, Segment } from 'semantic-ui-react'
+
 function InputField() {
 
   const [result, setResult] = useState("");
@@ -14,9 +17,11 @@ function InputField() {
   const [options, setOptions] = useState(["Prompt", "Image"]);
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState(false);
 
   const getResult = async (e, flag) => {
     e.preventDefault();
+    setError(false);
     let url = APIURL;
     setResult("")
 
@@ -45,28 +50,13 @@ function InputField() {
           headers: {
             "Content-Type": "application/json"
           },
-
-          // onDownloadProgress: (progressEvent) => {
-          //   const percentCompleted = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
-          //   setProgress(percentCompleted);
-          //   console.log(`Upload progress: ${percentCompleted}%`);
-          //   if (percentage === 100) {
-          //     setTimeout(() => {
-          //       setSearching(false);
-          //     }, 400);
-          //   }
-          //   clearTimeout()
-          // }
         },
       )
-      console.log(response.data.message)
-
-
       setResult(response.data.message)
-
       setSearching(false);
     } catch (err) {
       console.log(err);
+      setError(true);
       setSearching(false);
     }
   }
@@ -80,19 +70,28 @@ function InputField() {
             <Prompt inputValue={inputValue} setInputValue={setInputValue} result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} selectedOption={selectedOption} />
             :
             selectedOption === "Image" ?
-              <Image inputValue={inputValue} setInputValue={setInputValue} result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} selectedOption={selectedOption} />
+              <Image
+                error={error}
+                setError={setError}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                result={result}
+                searching={searching}
+                setSearching={setSearching}
+                getResult={getResult}
+                setResult={setResult}
+                setProgress={setProgress}
+                selectedOption={selectedOption} />
               : null
         }
 
         {
           searching ?
-            <>
-              <img style={{ marginTop: '2em', width: '10%', height: '' }} src={Loading} />
-              {/* <div className="download-bar-container">
-                <div className="download-bar" style={{ width: `${progress}%` }}></div>
-              </div> */}
-              <h4 style={{ marginTop: '-.2em' }}>Loading...</h4>
-            </>
+            <Segment style={{ width: '100%', height: '10em', background: 'transparent' }}>
+              <Dimmer active={true}>
+                <Loader indeterminate>Loading</Loader>
+              </Dimmer>
+            </Segment>
             : null
         }
       </div>

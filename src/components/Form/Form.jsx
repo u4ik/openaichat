@@ -13,15 +13,16 @@ const Form = (props) => {
                 value={props.inputValue}
                 onChange={e => props.setInputValue(e.target.value)}
             />
-            <div style={{ display: 'flex', gap: '.5em', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '.5em', justifyContent: 'center', marginBottom: '1em' }}>
                 <button className="submit_button" disabled={!props.inputValue} >Submit</button>
                 {
                     props.result ?
                         <button
                             className="clear_button" type='button' onClick={() => {
-                                props.setInputValue("")
-                                props.setResult("")
-                                props.setProgress(0)
+                                props.setInputValue("");
+                                props.setResult("");
+                                props.setProgress(0);
+                                props.setSearching(false);
                             }
                             }>X</button>
                         : null}

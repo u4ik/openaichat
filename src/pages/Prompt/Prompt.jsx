@@ -7,7 +7,7 @@ const Prompt = ({ result, setSearching, getResult, setResult, setProgress, selec
         <>
             <Form result={result} setSearching={setSearching} getResult={getResult} setResult={setResult} setProgress={setProgress} selectedOption={selectedOption} inputValue={inputValue} setInputValue={setInputValue} />
 
-            <p className="" style={{ fontSize: '1.4em', lineHeight: '1.4em', marginTop: 0 }}>{result}</p>
+            <p className="" style={{ fontSize: '1.4em', lineHeight: '1.4em', marginTop: 0, color: 'white' }}>{result}</p>
         </>
     )
 }
